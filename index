@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sueño Stereo (1995) - Soda Stereo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Montserrat:wght@300;400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        suedaDeep: '#05040a',
+                        suedaDark: '#0b0919',
+                        suedaCard: '#120f2a',
+                        suedaPurple: '#581c87',
+                        suedaNeon: '#a855f7',
+                        suedaCyan: '#06b6d4',
+                        suedaLila: '#c084fc',
+                        suedaSilver: '#e2e8f0',
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif'],
+                        serif: ['Cinzel', 'serif'],
+                    },
+                    boxShadow: {
+                        'neon-purple': '0 0 20px rgba(168, 85, 247, 0.35)',
+                        'neon-cyan': '0 0 20px rgba(6, 182, 212, 0.35)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(18, 15, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .animate-spin-slow {
+            animation: spin 18s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .paused {
+            animation-play-state: paused;
+        }
+        .user-glow {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-suedaDeep text-slate-200 font-sans antialiased selection:bg-suedaPurple selection:text-white overflow-x-hidden">
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 glass-panel border-b border-white/10" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo Sueño Stereo -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="relative w-10 h-10 rounded-full bg-gradient-to-tr from-suedaPurple via-suedaNeon to-suedaCyan p-0.5 shadow-neon-purple group-hover:rotate-180 transition-transform duration-700">
+                    <div class="w-full h-full bg-suedaDeep rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-compact-disc text-suedaCyan text-lg"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="font-display font-black text-xl tracking-widest text-white uppercase block leading-none">SUEÑO<span class="text-suedaNeon">STEREO</span></span>
+                    <span class="text-[9px] tracking-widest text-suedaCyan uppercase font-semibold">Soda Stereo • 1995</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex space-x-7 text-xs font-semibold tracking-wider">
+                <a href="#album" class="hover:text-suedaNeon transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-suedaNeon hover:after:w-full after:transition-all">EL ÁLBUM</a>
+                <a href="#integrantes" class="hover:text-suedaNeon transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-suedaNeon hover:after:w-full after:transition-all">1995 FORMACIÓN</a>
+                <a href="#tracklist" class="hover:text-suedaNeon transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-suedaNeon hover:after:w-full after:transition-all">TRACKLIST</a>
+                <a href="#galeria" class="hover:text-suedaNeon transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-suedaNeon hover:after:w-full after:transition-all">GALERÍA OFICIAL</a>
+                <a href="#comunidad" class="hover:text-suedaNeon transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-suedaNeon hover:after:w-full after:transition-all">COMUNIDAD FAN</a>
+            </nav>
+
+            <!-- User Auth & Action Buttons -->
+            <div class="flex items-center space-x-4">
+                <!-- Guest State: Login Button -->
+                <button id="btn-open-login" class="px-4 py-2 text-xs font-bold uppercase tracking-widest text-white border border-suedaNeon/50 hover:border-suedaNeon bg-suedaNeon/10 hover:bg-suedaNeon/30 rounded-full transition-all flex items-center space-x-2">
+                    <i class="fa-solid fa-user-astronaut text-suedaNeon"></i>
+                    <span>Ingresar</span>
+                </button>
+
+                <!-- Logged In State: User Dropdown (Hidden by default) -->
+                <div id="user-profile-menu" class="hidden relative">
+                    <button id="user-menu-btn" class="flex items-center space-x-3 focus:outline-none glass-panel px-3 py-1.5 rounded-full border border-suedaCyan/40 user-glow hover:border-suedaCyan transition-all">
+                        <img id="user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Avatar Fan" class="w-7 h-7 rounded-full object-cover border border-suedaCyan">
+                        <span id="user-display-name" class="text-xs font-bold text-white tracking-wide">Fan Stereo</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-suedaCyan"></i>
+                    </button>
+
+                    <!-- Dropdown Content -->
+                    <div id="user-dropdown" class="hidden absolute right-0 mt-3 w-56 glass-panel rounded-2xl border border-suedaPurple/40 shadow-2xl p-2 z-50 bg-suedaDark/95">
+                        <div class="px-3 py-2 border-b border-white/10 mb-1">
+                            <p class="text-xs text-gray-400">Sesión iniciada como</p>
+                            <p id="user-dropdown-email" class="text-xs font-bold text-suedaNeon truncate">fan@suenostereo.com</p>
+                        </div>
+                        <a href="#tracklist" onclick="showFavoritesModal(); return false;" class="flex items-center space-x-2 px-3 py-2 text-xs text-gray-200 hover:bg-suedaPurple/30 rounded-xl transition-colors">
+                            <i class="fa-solid fa-heart text-suedaNeon w-4"></i>
+                            <span>Mis Favoritas (<span id="fav-count">0</span>)</span>
+                        </a>
+                        <a href="#comunidad" class="flex items-center space-x-2 px-3 py-2 text-xs text-gray-200 hover:bg-suedaPurple/30 rounded-xl transition-colors">
+                            <i class="fa-solid fa-comments text-suedaCyan w-4"></i>
+                            <span>Comunidad Fans</span>
+                        </a>
+                        <button id="btn-logout" class="w-full text-left flex items-center space-x-2 px-3 py-2 text-xs text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors mt-1 border-t border-white/5">
+                            <i class="fa-solid fa-right-from-bracket w-4"></i>
+                            <span>Cerrar Sesión</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <button id="menu-btn" class="md:hidden text-2xl text-white focus:outline-none hover:text-suedaNeon">
+                    <i class="fa-solid fa-bars" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-suedaDark/95 border-b border-suedaNeon/20 px-4 pt-2 pb-6 space-y-4 text-center">
+            <a href="#album" class="block text-sm font-medium hover:text-suedaNeon py-2">EL ÁLBUM</a>
+            <a href="#integrantes" class="block text-sm font-medium hover:text-suedaNeon py-2">1995 FORMACIÓN</a>
+            <a href="#tracklist" class="block text-sm font-medium hover:text-suedaNeon py-2">TRACKLIST</a>
+            <a href="#galeria" class="block text-sm font-medium hover:text-suedaNeon py-2">GALERÍA OFICIAL</a>
+            <a href="#comunidad" class="block text-sm font-medium hover:text-suedaNeon py-2">COMUNIDAD FAN</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="album" class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden flex items-center min-h-screen">
+        <div class="absolute inset-0 bg-gradient-to-b from-suedaPurple/20 via-suedaDeep to-suedaDeep z-0"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Text Details -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-suedaNeon/40 bg-suedaNeon/10 text-suedaNeon text-xs tracking-widest font-mono uppercase">
+                        <i class="fa-solid fa-compact-disc"></i>
+                        <span>Último Álbum de Estudio • 29 de Junio de 1995</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-6xl xl:text-7xl font-display font-black tracking-tight text-white uppercase leading-none">
+                        SUEÑO <span class="text-transparent bg-clip-text bg-gradient-to-r from-suedaNeon via-suedaLila to-suedaCyan">STEREO</span>
+                    </h1>
+                    <p class="text-lg text-slate-300 font-light leading-relaxed max-w-2xl">
+                        La obra cumbre de neopsicodelia, art rock y pop experimental de <strong class="text-white">Soda Stereo</strong>. Un viaje sónico vanguardista grabado en Supersónico (Buenos Aires) y mezclado en Londres por Gustavo Cerati, Zeta Bosio y Charly Alberti.
+                    </p>
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <a href="#tracklist" class="px-8 py-3.5 bg-gradient-to-r from-suedaPurple to-suedaNeon hover:opacity-90 text-white font-bold text-xs tracking-widest uppercase rounded-full shadow-neon-purple transition-all transform hover:-translate-y-0.5 flex items-center space-x-3">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Explorar Canciones</span>
+                        </a>
+                        <a href="#galeria" class="px-8 py-3.5 glass-panel border border-suedaCyan/40 hover:border-suedaCyan text-suedaCyan hover:text-white font-bold text-xs tracking-widest uppercase rounded-full transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>Fotos Oficiales</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Album Cover Art Visual -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-suedaNeon via-suedaPurple to-suedaCyan rounded-3xl blur-xl opacity-50 group-hover:opacity-80 transition duration-1000"></div>
+                        <div class="relative w-72 h-72 sm:w-80 sm:h-80 xl:w-96 xl:h-96 rounded-2xl overflow-hidden border border-white/20 shadow-2xl glass-panel">
+                            <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&w=800&q=80" alt="Portada Sueño Stereo" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-suedaDark via-transparent to-transparent opacity-60"></div>
+                            <div class="absolute bottom-4 left-4 right-4 text-center">
+                                <span class="text-xs font-mono tracking-widest text-suedaCyan">BMG ARIOLA • 12 TRACKS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTEGRANTES SECTION -->
+    <section id="integrantes" class="py-24 bg-suedaDark/80 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold text-suedaCyan uppercase tracking-widest">Alineación Legendaria</span>
+                <h2 class="text-3xl sm:text-5xl font-display font-bold text-white uppercase mt-1">Formación <span class="text-suedaNeon">1995</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-suedaPurple via-suedaNeon to-suedaCyan mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Gustavo Cerati -->
+                <div class="glass-panel rounded-3xl p-6 border border-white/10 hover:border-suedaNeon/50 transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-full h-64 rounded-2xl overflow-hidden mb-5">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80" alt="Gustavo Cerati" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <h3 class="text-xl font-bold text-white uppercase">Gustavo Cerati</h3>
+                    <p class="text-xs font-semibold text-suedaNeon mb-3">Voz principal, Guitarras & Producción</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">Concebió el universo sónico de Sueño Stereo introduciendo samplers, sintetizadores sutiles y estructuras psicodélicas magistrales.</p>
+                </div>
+
+                <!-- Zeta Bosio -->
+                <div class="glass-panel rounded-3xl p-6 border border-white/10 hover:border-suedaCyan/50 transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-full h-64 rounded-2xl overflow-hidden mb-5">
+                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="Zeta Bosio" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <h3 class="text-xl font-bold text-white uppercase">Zeta Bosio</h3>
+                    <p class="text-xs font-semibold text-suedaCyan mb-3">Bajo, Coros & Samplers</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">Aportó bases profundas e hipnóticas de bajo que le dieron esa solidez groovy y atmósfera envolvente al sonido final del álbum.</p>
+                </div>
+
+                <!-- Charly Alberti -->
+                <div class="glass-panel rounded-3xl p-6 border border-white/10 hover:border-suedaLila/50 transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="w-full h-64 rounded-2xl overflow-hidden mb-5">
+                        <img src="https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&w=600&q=80" alt="Charly Alberti" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <h3 class="text-xl font-bold text-white uppercase">Charly Alberti</h3>
+                    <p class="text-xs font-semibold text-suedaLila mb-3">Batería & Percusión Electrónica</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">Combinó la fuerza del rock con loops rítmicos digitales revolucionando el estilo rítmico de la banda para la época.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRACKLIST SECTION -->
+    <section id="tracklist" class="py-24 bg-suedaDeep relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold text-suedaNeon uppercase tracking-widest">Repertorio Oficial</span>
+                <h2 class="text-3xl sm:text-5xl font-display font-bold text-white uppercase mt-1">Tracklist <span class="text-suedaCyan">Interactivo</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-suedaPurple via-suedaNeon to-suedaCyan mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Track List Buttons -->
+                <div class="lg:col-span-6 space-y-3">
+                    <div class="track-card glass-panel p-4 rounded-2xl border border-suedaNeon/40 flex items-center justify-between cursor-pointer hover:bg-suedaPurple/20 transition-all" data-number="01" data-title="Ella Usó Mi Cabeza Como Un Revólver" data-duration="4:29" data-desc="Apertura épica con arreglos de cuerdas dramáticos y riff inolvidable de violonchelos y guitarra." data-lyric="«No dejaré que me desarmen sin antes dar una batalla...»">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm font-mono font-bold text-suedaNeon">01</span>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Ella Usó Mi Cabeza Como Un Revólver</h4>
+                                <span class="text-[10px] text-gray-400">Sencillo Principal</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="event.stopPropagation(); toggleFavorite('Ella Usó Mi Cabeza Como Un Revólver')" class="btn-fav-song text-gray-500 hover:text-suedaNeon transition-colors" data-song="Ella Usó Mi Cabeza Como Un Revólver">
+                                <i class="fa-solid fa-heart"></i>
+                            </button>
+                            <span class="text-xs font-mono text-gray-400">4:29</span>
+                        </div>
+                    </div>
+
+                    <div class="track-card glass-panel p-4 rounded-2xl border border-transparent hover:border-suedaNeon/40 flex items-center justify-between cursor-pointer hover:bg-suedaPurple/20 transition-all" data-number="02" data-title="Disco Eterno" data-duration="5:46" data-desc="Una pieza de pop psicodélico deslumbrante que define el sonido general de la placa." data-lyric="«Te quiero ver en el mismo lugar, como un disco eterno...»">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm font-mono font-bold text-gray-500">02</span>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Disco Eterno</h4>
+                                <span class="text-[10px] text-gray-400">Track 2</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="event.stopPropagation(); toggleFavorite('Disco Eterno')" class="btn-fav-song text-gray-500 hover:text-suedaNeon transition-colors" data-song="Disco Eterno">
+                                <i class="fa-solid fa-heart"></i>
+                            </button>
+                            <span class="text-xs font-mono text-gray-400">5:46</span>
+                        </div>
+                    </div>
+
+                    <div class="track-card glass-panel p-4 rounded-2xl border border-transparent hover:border-suedaNeon/40 flex items-center justify-between cursor-pointer hover:bg-suedaPurple/20 transition-all" data-number="03" data-title="Zoom" data-duration="3:26" data-desc="Clásico instantáneo con influencias del britpop inglés de los noventa." data-lyric="«Hazme un zoom en la cara, quiero ver los detalles...»">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm font-mono font-bold text-gray-500">03</span>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Zoom</h4>
+                                <span class="text-[10px] text-gray-400">Hit Radial</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="event.stopPropagation(); toggleFavorite('Zoom')" class="btn-fav-song text-gray-500 hover:text-suedaNeon transition-colors" data-song="Zoom">
+                                <i class="fa-solid fa-heart"></i>
+                            </button>
+                            <span class="text-xs font-mono text-gray-400">3:26</span>
+                        </div>
+                    </div>
+
+                    <div class="track-card glass-panel p-4 rounded-2xl border border-transparent hover:border-suedaNeon/40 flex items-center justify-between cursor-pointer hover:bg-suedaPurple/20 transition-all" data-number="04" data-title="Paseando Por Roma" data-duration="3:34" data-desc="Pop enérgico y rítmico inspirado en los viajes y giras por Europa." data-lyric="«Me verás volar por la ciudad de la furia y pasear por Roma...»">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm font-mono font-bold text-gray-500">04</span>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Paseando Por Roma</h4>
+                                <span class="text-[10px] text-gray-400">Track 4</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="event.stopPropagation(); toggleFavorite('Paseando Por Roma')" class="btn-fav-song text-gray-500 hover:text-suedaNeon transition-colors" data-song="Paseando Por Roma">
+                                <i class="fa-solid fa-heart"></i>
+                            </button>
+                            <span class="text-xs font-mono text-gray-400">3:34</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Track Display Card -->
+                <div class="lg:col-span-6">
+                    <div class="glass-panel p-8 rounded-3xl border border-suedaNeon/30 relative overflow-hidden shadow-2xl">
+                        <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+                            <span id="detail-num" class="text-3xl font-mono font-black text-suedaNeon">01</span>
+                            <span id="detail-duration" class="text-sm font-mono text-suedaCyan">4:29</span>
+                        </div>
+                        <h3 id="detail-title" class="text-2xl font-bold text-white mb-4">Ella Usó Mi Cabeza Como Un Revólver</h3>
+                        <p id="detail-desc" class="text-sm text-gray-300 leading-relaxed mb-6">Apertura épica con arreglos de cuerdas dramáticos y riff inolvidable de violonchelos y guitarra.</p>
+                        <blockquote id="detail-lyric" class="p-4 rounded-2xl bg-suedaDeep/90 border-l-4 border-suedaNeon text-xs italic text-suedaLila">
+                            «No dejaré que me desarmen sin antes dar una batalla...»
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERIA SECTION -->
+    <section id="galeria" class="py-24 bg-suedaDark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold text-suedaCyan uppercase tracking-widest">Archivo Fotográfico</span>
+                <h2 class="text-3xl sm:text-5xl font-display font-bold text-white uppercase mt-1">Galería <span class="text-suedaNeon">1995</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-suedaPurple via-suedaNeon to-suedaCyan mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="rounded-2xl overflow-hidden glass-panel border border-white/10 group h-64">
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80" alt="Soda Live" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="rounded-2xl overflow-hidden glass-panel border border-white/10 group h-64">
+                    <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80" alt="Soda Studio" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="rounded-2xl overflow-hidden glass-panel border border-white/10 group h-64">
+                    <img src="https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=600&q=80" alt="Soda Tour" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMUNIDAD FAN SECTION -->
+    <section id="comunidad" class="py-24 bg-suedaDark/60 border-t border-white/5 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold text-suedaCyan uppercase tracking-widest">Zona Stereo Fans</span>
+                <h2 class="text-3xl sm:text-5xl font-display font-bold text-white uppercase mt-1">
+                    Comunidad <span class="text-suedaNeon">Sueño Stereo</span>
+                </h2>
+                <p class="text-gray-400 text-sm mt-2">Comparte lo que significa este álbum legendario para ti.</p>
+                <div class="w-20 h-1 bg-gradient-to-r from-suedaPurple via-suedaNeon to-suedaCyan mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Comment Input Box -->
+            <div class="glass-panel p-6 rounded-2xl border border-suedaPurple/30 mb-8 shadow-xl">
+                <div id="comment-guest-prompt" class="text-center py-4">
+                    <i class="fa-solid fa-lock text-3xl text-suedaNeon/60 mb-2"></i>
+                    <p class="text-sm text-gray-300">Debes iniciar sesión para publicar en la comunidad del álbum.</p>
+                    <button onclick="openAuthModal('login')" class="mt-3 px-5 py-2 text-xs font-bold uppercase tracking-widest text-white bg-suedaPurple hover:bg-suedaPurple/80 rounded-full transition-all shadow-neon-purple">
+                        Iniciar Sesión
+                    </button>
+                </div>
+
+                <form id="comment-form" class="hidden space-y-4">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <img id="comment-user-avatar" src="" alt="Avatar" class="w-8 h-8 rounded-full border border-suedaCyan">
+                        <span id="comment-user-name" class="text-xs font-bold text-white"></span>
+                        <span class="text-[10px] bg-suedaNeon/20 text-suedaNeon px-2 py-0.5 rounded-full uppercase">Stereo Fan</span>
+                    </div>
+                    <textarea id="comment-text" rows="3" required placeholder="¿Qué sensaciones te produce escuchar Sueño Stereo? Escribe tu mensaje..." class="w-full bg-suedaDeep/80 border border-white/10 rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-suedaNeon transition-all"></textarea>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[11px] text-gray-500">Sé respetuoso con la comunidad.</span>
+                        <button type="submit" class="px-6 py-2 bg-gradient-to-r from-suedaPurple to-suedaNeon hover:opacity-90 text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                            <span>Publicar</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Comments List -->
+            <div id="comments-container" class="space-y-4">
+                <div class="glass-panel p-5 rounded-xl border border-white/5 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" class="w-8 h-8 rounded-full border border-suedaPurple">
+                            <div>
+                                <h5 class="text-xs font-bold text-white">Marcos Cerati</h5>
+                                <span class="text-[10px] text-gray-400">Hace 2 horas</span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-suedaCyan font-mono"><i class="fa-solid fa-heart text-suedaNeon mr-1"></i> Zoom</span>
+                    </div>
+                    <p class="text-xs text-gray-300 leading-relaxed">"Paseando por Roma" y "Disco Eterno" son cumbres absolutas del rock en nuestro idioma. La producción sonora de este disco sigue sonando del futuro 30 años después.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-suedaDark border-t border-suedaLila/10 py-12 text-center text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="font-serif tracking-widest uppercase text-xs mb-2 text-suedaLila">Sueño Stereo (1995) — Tributo Especial</p>
+            <p class="text-xs text-gray-600">Soda Stereo • Gustavo Cerati • Zeta Bosio • Charly Alberti</p>
+        </div>
+    </footer>
+
+    <!-- AUTHENTICATION MODAL (LOGIN / REGISTER) -->
+    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-md rounded-3xl border border-suedaNeon/40 p-8 relative shadow-2xl bg-suedaDark/95">
+            <button id="btn-close-modal" class="absolute top-5 right-5 text-gray-400 hover:text-white transition-colors text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-full bg-suedaNeon/10 border border-suedaNeon mx-auto flex items-center justify-center text-suedaNeon text-xl mb-3 shadow-neon-purple">
+                    <i class="fa-solid fa-compact-disc animate-spin-slow"></i>
+                </div>
+                <h3 id="auth-modal-title" class="text-2xl font-display font-bold text-white uppercase tracking-wider">Iniciar Sesión</h3>
+                <p id="auth-modal-subtitle" class="text-xs text-gray-400 mt-1">Ingresa a la zona de fans del portal Sueño Stereo</p>
+            </div>
+
+            <div id="auth-alert" class="hidden mb-4 p-3 rounded-xl text-xs text-center font-medium"></div>
+
+            <form id="auth-form" class="space-y-4">
+                <div id="field-name-container" class="hidden space-y-1">
+                    <label class="text-[11px] font-semibold text-gray-300 uppercase tracking-wider">Nombre de Usuario</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-gray-500 text-xs"></i>
+                        <input type="text" id="auth-name" placeholder="Ej: GustavoFan95" class="w-full bg-suedaDeep/90 border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-suedaNeon transition-all">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[11px] font-semibold text-gray-300 uppercase tracking-wider">Correo Electrónico</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute left-3.5 top-3.5 text-gray-500 text-xs"></i>
+                        <input type="email" id="auth-email" required placeholder="tu@correo.com" class="w-full bg-suedaDeep/90 border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-suedaNeon transition-all">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-[11px] font-semibold text-gray-300 uppercase tracking-wider">Contraseña</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-3.5 top-3.5 text-gray-500 text-xs"></i>
+                        <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-suedaDeep/90 border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-suedaNeon transition-all">
+                    </div>
+                </div>
+
+                <div id="field-avatar-container" class="hidden space-y-1">
+                    <label class="text-[11px] font-semibold text-gray-300 uppercase tracking-wider">Elige tu Avatar</label>
+                    <div class="flex justify-between items-center pt-1" id="avatar-picker">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" data-avatar="1" class="avatar-option w-10 h-10 rounded-full border-2 border-suedaNeon cursor-pointer object-cover">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" data-avatar="2" class="avatar-option w-10 h-10 rounded-full border-2 border-transparent hover:border-suedaCyan cursor-pointer object-cover">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" data-avatar="3" class="avatar-option w-10 h-10 rounded-full border-2 border-transparent hover:border-suedaCyan cursor-pointer object-cover">
+                        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=150&q=80" data-avatar="4" class="avatar-option w-10 h-10 rounded-full border-2 border-transparent hover:border-suedaCyan cursor-pointer object-cover">
+                    </div>
+                </div>
+
+                <div id="remember-container" class="flex items-center justify-between text-xs text-gray-400 pt-1">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" id="remember-me" checked class="rounded bg-suedaDeep border-white/20 text-suedaNeon focus:ring-0">
+                        <span>Recordar mi sesión</span>
+                    </label>
+                </div>
+
+                <button type="submit" id="auth-submit-btn" class="w-full py-3 bg-gradient-to-r from-suedaPurple via-suedaNeon to-suedaCyan text-white font-bold text-xs uppercase tracking-widest rounded-xl shadow-neon-purple hover:opacity-90 transition-all hover:scale-[1.02] mt-4">
+                    Iniciar Sesión
+                </button>
+            </form>
+
+            <div class="text-center mt-6 pt-4 border-t border-white/10 text-xs text-gray-400">
+                <span id="auth-toggle-text">¿No tienes cuenta de fan aún?</span>
+                <button id="btn-toggle-auth" class="text-suedaNeon font-bold hover:underline ml-1">Regístrate gratis</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAVORITES MODAL -->
+    <div id="favs-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+        <div class="glass-panel w-full max-w-lg rounded-3xl border border-suedaCyan/40 p-6 relative shadow-2xl bg-suedaDark/95">
+            <button onclick="closeFavoritesModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center space-x-3 mb-4">
+                <i class="fa-solid fa-heart text-suedaNeon text-2xl"></i>
+                <div>
+                    <h3 class="text-xl font-display font-bold text-white uppercase">Mis Canciones Favoritas</h3>
+                    <p class="text-xs text-gray-400">Sueño Stereo (1995)</p>
+                </div>
+            </div>
+            <div id="favs-list-container" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERACTIVE JAVASCRIPT -->
+    <script>
+        // State
+        let currentAuthMode = 'login';
+        let currentUser = JSON.parse(localStorage.getItem('sueno_stereo_user')) || null;
+        let userFavorites = JSON.parse(localStorage.getItem('sueno_stereo_favs')) || [];
+        let selectedAvatarUrl = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80";
+
+        // Navigation Elements
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuIcon.className = mobileMenu.classList.contains('hidden') ? 'fa-solid fa-bars' : 'fa-solid fa-xmark';
+            });
+        }
+
+        // Tracklist selection
+        const trackCards = document.querySelectorAll('.track-card');
+        const detailNum = document.getElementById('detail-num');
+        const detailTitle = document.getElementById('detail-title');
+        const detailDuration = document.getElementById('detail-duration');
+        const detailDesc = document.getElementById('detail-desc');
+        const detailLyric = document.getElementById('detail-lyric');
+
+        trackCards.forEach(card => {
+            card.addEventListener('click', () => {
+                trackCards.forEach(c => {
+                    c.classList.remove('border-suedaNeon/40');
+                    c.classList.add('border-transparent');
+                    const num = c.querySelector('.font-mono');
+                    if (num) {
+                        num.classList.remove('text-suedaNeon');
+                        num.classList.add('text-gray-500');
+                    }
+                });
+
+                card.classList.remove('border-transparent');
+                card.classList.add('border-suedaNeon/40');
+                const activeNum = card.querySelector('.font-mono');
+                if (activeNum) {
+                    activeNum.classList.remove('text-gray-500');
+                    activeNum.classList.add('text-suedaNeon');
+                }
+
+                if (detailNum) detailNum.innerText = card.getAttribute('data-number');
+                if (detailTitle) detailTitle.innerText = card.getAttribute('data-title');
+                if (detailDuration) detailDuration.innerText = card.getAttribute('data-duration');
+                if (detailDesc) detailDesc.innerText = card.getAttribute('data-desc');
+                if (detailLyric) detailLyric.innerText = card.getAttribute('data-lyric');
+            });
+        });
+
+        // Auth Elements
+        const authModal = document.getElementById('auth-modal');
+        const btnOpenLogin = document.getElementById('btn-open-login');
+        const btnCloseModal = document.getElementById('btn-close-modal');
+        const btnToggleAuth = document.getElementById('btn-toggle-auth');
+        const authForm = document.getElementById('auth-form');
+        const authModalTitle = document.getElementById('auth-modal-title');
+        const authModalSubtitle = document.getElementById('auth-modal-subtitle');
+        const authSubmitBtn = document.getElementById('auth-submit-btn');
+        const authToggleText = document.getElementById('auth-toggle-text');
+        const fieldNameContainer = document.getElementById('field-name-container');
+        const fieldAvatarContainer = document.getElementById('field-avatar-container');
+        const rememberContainer = document.getElementById('remember-container');
+        const authAlert = document.getElementById('auth-alert');
+
+        const userProfileMenu = document.getElementById('user-profile-menu');
+        const userMenuBtn = document.getElementById('user-menu-btn');
+        const userDropdown = document.getElementById('user-dropdown');
+        const userDisplayName = document.getElementById('user-display-name');
+        const userAvatar = document.getElementById('user-avatar');
+        const userDropdownEmail = document.getElementById('user-dropdown-email');
+        const btnLogout = document.getElementById('btn-logout');
+
+        const commentGuestPrompt = document.getElementById('comment-guest-prompt');
+        const commentForm = document.getElementById('comment-form');
+        const commentUserAvatar = document.getElementById('comment-user-avatar');
+        const commentUserName = document.getElementById('comment-user-name');
+        const commentText = document.getElementById('comment-text');
+        const commentsContainer = document.getElementById('comments-container');
+        const favCountSpan = document.getElementById('fav-count');
+
+        // Functions
+        function openAuthModal(mode = 'login') {
+            currentAuthMode = mode;
+            updateModalView();
+            if (authModal) authModal.classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            if (authModal) authModal.classList.add('hidden');
+            hideAlert();
+        }
+
+        if (btnOpenLogin) btnOpenLogin.addEventListener('click', () => openAuthModal('login'));
+        if (btnCloseModal) btnCloseModal.addEventListener('click', closeAuthModal);
+
+        if (btnToggleAuth) {
+            btnToggleAuth.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentAuthMode = currentAuthMode === 'login' ? 'register' : 'login';
+                updateModalView();
+            });
+        }
+
+        function updateModalView() {
+            hideAlert();
+            if (currentAuthMode === 'login') {
+                if (authModalTitle) authModalTitle.innerText = "Iniciar Sesión";
+                if (authModalSubtitle) authModalSubtitle.innerText = "Ingresa a la zona de fans del portal Sueño Stereo";
+                if (authSubmitBtn) authSubmitBtn.innerText = "Iniciar Sesión";
+                if (authToggleText) authToggleText.innerText = "¿No tienes cuenta de fan aún?";
+                if (btnToggleAuth) btnToggleAuth.innerText = "Regístrate gratis";
+                if (fieldNameContainer) fieldNameContainer.classList.add('hidden');
+                if (fieldAvatarContainer) fieldAvatarContainer.classList.add('hidden');
+                if (rememberContainer) rememberContainer.classList.remove('hidden');
+            } else {
+                if (authModalTitle) authModalTitle.innerText = "Crear Cuenta Fan";
+                if (authModalSubtitle) authModalSubtitle.innerText = "Únete a la comunidad tributo a Soda Stereo";
+                if (authSubmitBtn) authSubmitBtn.innerText = "Registrarme";
+                if (authToggleText) authToggleText.innerText = "¿Ya tienes cuenta?";
+                if (btnToggleAuth) btnToggleAuth.innerText = "Inicia sesión";
+                if (fieldNameContainer) fieldNameContainer.classList.remove('hidden');
+                if (fieldAvatarContainer) fieldAvatarContainer.classList.remove('hidden');
+                if (rememberContainer) rememberContainer.classList.add('hidden');
+            }
+        }
+
+        document.querySelectorAll('.avatar-option').forEach(img => {
+            img.addEventListener('click', () => {
+                document.querySelectorAll('.avatar-option').forEach(i => i.classList.replace('border-suedaNeon', 'border-transparent'));
+                img.classList.replace('border-transparent', 'border-suedaNeon');
+                selectedAvatarUrl = img.src;
+            });
+        });
+
+        function showAlert(msg, isError = true) {
+            if (!authAlert) return;
+            authAlert.innerText = msg;
+            authAlert.className = `mb-4 p-3 rounded-xl text-xs text-center font-medium ${isError ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'}`;
+            authAlert.classList.remove('hidden');
+        }
+
+        function hideAlert() {
+            if (authAlert) authAlert.classList.add('hidden');
+        }
+
+        if (authForm) {
+            authForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('auth-email').value;
+
+                if (currentAuthMode === 'login') {
+                    const name = email.split('@')[0];
+                    currentUser = {
+                        name: name.charAt(0).toUpperCase() + name.slice(1),
+                        email: email,
+                        avatar: selectedAvatarUrl
+                    };
+                    showAlert("¡Sesión iniciada con éxito!", false);
+                } else {
+                    const nameInput = document.getElementById('auth-name').value;
+                    currentUser = {
+                        name: nameInput || "Fan Stereo",
+                        email: email,
+                        avatar: selectedAvatarUrl
+                    };
+                    showAlert("¡Cuenta creada exitosamente!", false);
+                }
+
+                localStorage.setItem('sueno_stereo_user', JSON.stringify(currentUser));
+
+                setTimeout(() => {
+                    closeAuthModal();
+                    updateUIAuthState();
+                }, 600);
+            });
+        }
+
+        if (userMenuBtn) {
+            userMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (userDropdown) userDropdown.classList.toggle('hidden');
+            });
+        }
+
+        document.addEventListener('click', () => {
+            if (userDropdown) userDropdown.classList.add('hidden');
+        });
+
+        if (btnLogout) {
+            btnLogout.addEventListener('click', () => {
+                currentUser = null;
+                localStorage.removeItem('sueno_stereo_user');
+                updateUIAuthState();
+            });
+        }
+
+        function updateUIAuthState() {
+            if (currentUser) {
+                if (btnOpenLogin) btnOpenLogin.classList.add('hidden');
+                if (userProfileMenu) userProfileMenu.classList.remove('hidden');
+                if (userDisplayName) userDisplayName.innerText = currentUser.name;
+                if (userDropdownEmail) userDropdownEmail.innerText = currentUser.email;
+                if (userAvatar) userAvatar.src = currentUser.avatar;
+
+                if (commentGuestPrompt) commentGuestPrompt.classList.add('hidden');
+                if (commentForm) commentForm.classList.remove('hidden');
+                if (commentUserAvatar) commentUserAvatar.src = currentUser.avatar;
+                if (commentUserName) commentUserName.innerText = currentUser.name;
+            } else {
+                if (btnOpenLogin) btnOpenLogin.classList.remove('hidden');
+                if (userProfileMenu) userProfileMenu.classList.add('hidden');
+
+                if (commentGuestPrompt) commentGuestPrompt.classList.remove('hidden');
+                if (commentForm) commentForm.classList.add('hidden');
+            }
+            if (favCountSpan) favCountSpan.innerText = userFavorites.length;
+        }
+
+        function toggleFavorite(songTitle) {
+            if (!currentUser) {
+                openAuthModal('login');
+                return;
+            }
+
+            const index = userFavorites.indexOf(songTitle);
+            if (index > -1) {
+                userFavorites.splice(index, 1);
+            } else {
+                userFavorites.push(songTitle);
+            }
+            localStorage.setItem('sueno_stereo_favs', JSON.stringify(userFavorites));
+            if (favCountSpan) favCountSpan.innerText = userFavorites.length;
+            renderFavoritesButtons();
+        }
+
+        function renderFavoritesButtons() {
+            document.querySelectorAll('.btn-fav-song').forEach(btn => {
+                const song = btn.getAttribute('data-song');
+                if (userFavorites.includes(song)) {
+                    btn.classList.add('text-suedaNeon');
+                    btn.classList.remove('text-gray-500');
+                } else {
+                    btn.classList.remove('text-suedaNeon');
+                    btn.classList.add('text-gray-500');
+                }
+            });
+        }
+
+        function showFavoritesModal() {
+            const container = document.getElementById('favs-list-container');
+            if (!container) return;
+            container.innerHTML = '';
+            if (userFavorites.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-400 py-4 text-center">Aún no has agregado canciones a tus favoritas. Presiona el corazón en la lista de canciones.</p>`;
+            } else {
+                userFavorites.forEach(song => {
+                    container.innerHTML += `
+                        <div class="glass-panel p-3 rounded-xl flex items-center justify-between border border-white/5">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-compact-disc text-suedaCyan"></i>
+                                <span class="text-xs font-bold text-white">${song}</span>
+                            </div>
+                            <button onclick="toggleFavorite('${song}'); showFavoritesModal();" class="text-xs text-rose-400 hover:text-rose-300">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+            }
+            const modal = document.getElementById('favs-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeFavoritesModal() {
+            const modal = document.getElementById('favs-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        if (commentForm) {
+            commentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const text = commentText.value.trim();
+                if (!text || !currentUser) return;
+
+                const newComment = document.createElement('div');
+                newComment.className = 'glass-panel p-5 rounded-xl border border-suedaNeon/20 space-y-2';
+                newComment.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-3">
+                            <img src="${currentUser.avatar}" class="w-8 h-8 rounded-full border border-suedaNeon object-cover">
+                            <div>
+                                <h5 class="text-xs font-bold text-white">${currentUser.name}</h5>
+                                <span class="text-[10px] text-suedaNeon">Recién publicado</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] bg-suedaPurple/30 text-suedaCyan px-2 py-0.5 rounded-full uppercase">Fan Auténtico</span>
+                    </div>
+                    <p class="text-xs text-gray-200 leading-relaxed">${text}</p>
+                `;
+                if (commentsContainer) commentsContainer.prepend(newComment);
+                commentText.value = '';
+            });
+        }
+
+        // Initialize on DOM Ready
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUIAuthState();
+            renderFavoritesButtons();
+        });
+    </script>
+</body>
+</html>
